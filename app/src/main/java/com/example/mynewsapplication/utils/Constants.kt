@@ -1,10 +1,23 @@
 package com.example.mynewsapplication.utils
 
-class Constants {
-    companion object {
-        const val API_KEY = "dc321f4f20104bc18156d2a0319deee0"
-        const val BASE_URL = "https://newsapi.org"
-//        const val SEARCH_NEWS_TIME_DELAY = 500L
-//        const val QUERY_PAGE_SIZE = 20
-    }
+object Constants {
+    const val GENERAL = "general"
+    const val SCIENCE = "science"
+    const val HEALTH = "health"
+    const val ENTERTAINMENT = "entertainment"
+    const val BUSINESS = "business"
+    const val TECHNOLOGY = "technology"
+    const val SPORTS = "sports"
+    const val NEWS_URL = "news url"
+    const val NEWS_TITLE = "news title"
+    const val NEWS_IMAGE_URL = "news image url"
+    const val NEWS_SOURCE = "news source"
+    const val NEWS_PUBLICATION_TIME = "news publication time"
+    const val NEWS_DESCRIPTION = "news description"
+    const val NEWS_CONTENT = "news content"
+    const val TOTAL_NEWS_TAB = 7
+    const val TOP_HEADLINES_COUNT = 5
+
+
+    const val INITIAL_POSITION = 0
 }
