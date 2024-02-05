@@ -1,4 +1,4 @@
-package com.example.mynewsapplication.retrofit
+package com.example.mynewsapplication.data.response
 
 data class Article(
     val author: String,

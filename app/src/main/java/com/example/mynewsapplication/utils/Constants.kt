@@ -16,8 +16,4 @@ object Constants {
     const val NEWS_DESCRIPTION = "news description"
     const val NEWS_CONTENT = "news content"
     const val TOTAL_NEWS_TAB = 7
-    const val TOP_HEADLINES_COUNT = 5
-
-
-    const val INITIAL_POSITION = 0
 }

@@ -1,5 +1,6 @@
-package com.example.mynewsapplication.retrofit
+package com.example.mynewsapplication.data.service
 
+import com.example.mynewsapplication.data.response.NewsDataFromJson
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

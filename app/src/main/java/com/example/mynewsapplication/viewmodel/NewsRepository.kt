@@ -1,13 +1,13 @@
-package com.example.mynewsapplication.architecture
+package com.example.mynewsapplication.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mynewsapplication.BuildConfig
 import com.example.mynewsapplication.MainActivity
 import com.example.mynewsapplication.NewsModel
-import com.example.mynewsapplication.retrofit.NewsDataFromJson
-import com.example.mynewsapplication.retrofit.RetrofitHelper
-import com.example.mynewsapplication.retrofit.NewsApi
+import com.example.mynewsapplication.data.response.NewsDataFromJson
+import com.example.mynewsapplication.data.RetrofitHelper
+import com.example.mynewsapplication.data.service.NewsApi
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call

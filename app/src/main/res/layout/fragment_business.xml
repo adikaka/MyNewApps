@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/recyclerView"
 
-    tools:context=".fragmentClasses.BusinessFragment">
+    tools:context=".presentation.BusinessFragment">
 
 </androidx.recyclerview.widget.RecyclerView>

@@ -1,4 +1,6 @@
-package com.example.mynewsapplication.retrofit
+package com.example.mynewsapplication.data.response
+
+import com.example.mynewsapplication.data.response.Article
 
 data class NewsDataFromJson(
     val articles: List<Article>,

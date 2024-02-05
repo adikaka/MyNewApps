@@ -1,21 +1,20 @@
 package com.example.mynewsapplication
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.mynewsapplication.adapter.FragmentAdapter
-import com.example.mynewsapplication.architecture.NewsViewModel
+import com.example.mynewsapplication.databinding.ActivityMainBinding
+import com.example.mynewsapplication.presentation.adapter.FragmentAdapter
+import com.example.mynewsapplication.viewmodel.NewsViewModel
 import com.example.mynewsapplication.utils.Constants.BUSINESS
 import com.example.mynewsapplication.utils.Constants.ENTERTAINMENT
 import com.example.mynewsapplication.utils.Constants.GENERAL
@@ -38,31 +37,23 @@ class MainActivity : AppCompatActivity() {
     )
 
     private lateinit var viewModel: NewsViewModel
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager: ViewPager2
+    private lateinit var binding: ActivityMainBinding
     private lateinit var fragmentAdapter: FragmentAdapter
-    private lateinit var shimmerLayout: ShimmerFrameLayout
     private var totalRequestCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Set Action Bar
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        tabLayout = findViewById(R.id.tab_layout)
-        viewPager = findViewById(R.id.view_pager)
-        shimmerLayout = findViewById(R.id.shimmer_layout)
+        setSupportActionBar(binding.toolbar)
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
 
-
         if (!isNetworkAvailable(applicationContext)) {
-            shimmerLayout.visibility = View.GONE
-            val showError: TextView = findViewById(R.id.display_error)
-            showError.text = getString(R.string.internet_warming)
-            showError.visibility = View.VISIBLE
+            binding.shimmerLayout.visibility = View.GONE
+            binding.displayError.text = getString(R.string.internet_warming)
+            binding.displayError.visibility = View.VISIBLE
         }
 
         // Send request call for news data
@@ -75,8 +66,8 @@ class MainActivity : AppCompatActivity() {
         requestNews(TECHNOLOGY, techNews)
 
         fragmentAdapter = FragmentAdapter(supportFragmentManager, lifecycle)
-        viewPager.adapter = fragmentAdapter
-        viewPager.visibility = View.GONE
+        binding.viewPager.adapter = fragmentAdapter
+        binding.viewPager.visibility = View.GONE
 
     }
 
@@ -88,29 +79,28 @@ class MainActivity : AppCompatActivity() {
 
             // If main fragment loaded then attach the fragment to viewPager
             if (newsCategory == GENERAL) {
-                shimmerLayout.stopShimmer()
-                shimmerLayout.hideShimmer()
-                shimmerLayout.visibility = View.GONE
+                binding.shimmerLayout.stopShimmer()
+                binding.shimmerLayout.hideShimmer()
+                binding.shimmerLayout.visibility = View.GONE
                 setViewPager()
             }
 
             if (totalRequestCount == TOTAL_NEWS_TAB) {
-                viewPager.offscreenPageLimit = 7
+                binding.viewPager.offscreenPageLimit = 7
             }
         }
     }
 
     private fun setViewPager() {
-//        handle error API
+        //handle error API
         if (!apiRequestError) {
-            viewPager.visibility = View.VISIBLE
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            binding.viewPager.visibility = View.VISIBLE
+            TabLayoutMediator(binding.tabLayout, binding.viewPager){tab, position ->
                 tab.text = newsCategories[position]
             }.attach()
         } else {
-            val showError: TextView = findViewById(R.id.display_error)
-            showError.text = errorMessage
-            showError.visibility = View.VISIBLE
+            binding.displayError.text = errorMessage
+            binding.displayError.visibility = View.VISIBLE
         }
     }
 
@@ -145,7 +135,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        var generalNews: ArrayList<NewsModel> = ArrayList()
+        var generalNews: MutableList<NewsModel> = mutableListOf()
         var entertainmentNews: MutableList<NewsModel> = mutableListOf()
         var businessNews: MutableList<NewsModel> = mutableListOf()
         var healthNews: MutableList<NewsModel> = mutableListOf()

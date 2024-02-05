@@ -1,17 +1,18 @@
-package com.example.mynewsapplication.adapter
+package com.example.mynewsapplication.presentation.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.mynewsapplication.presentation.BusinessFragment
+import com.example.mynewsapplication.presentation.EntertainmentFragment
+import com.example.mynewsapplication.presentation.GeneralFragment
+import com.example.mynewsapplication.presentation.HealthFragment
+import com.example.mynewsapplication.presentation.ScienceFragment
+import com.example.mynewsapplication.presentation.SportsFragment
+import com.example.mynewsapplication.presentation.TechFragment
 import com.example.mynewsapplication.utils.Constants.TOTAL_NEWS_TAB
-import com.example.newsapp.fragmentClasses.BusinessFragment
-import com.example.newsapp.fragmentClasses.EntertainmentFragment
-import com.example.newsapp.fragmentClasses.GeneralFragment
-import com.example.newsapp.fragmentClasses.HealthFragment
-import com.example.newsapp.fragmentClasses.ScienceFragment
-import com.example.newsapp.fragmentClasses.SportsFragment
-import com.example.newsapp.fragmentClasses.TechFragment
+
 
 class FragmentAdapter(fm: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fm, lifecycle){
 

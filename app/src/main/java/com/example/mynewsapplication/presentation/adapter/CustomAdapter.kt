@@ -1,4 +1,4 @@
-package com.example.mynewsapplication.adapter
+package com.example.mynewsapplication.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsapplication.NewsModel
 import com.example.mynewsapplication.R
+import com.example.mynewsapplication.databinding.ListItemBinding
 import com.squareup.picasso.Picasso
 import java.time.Duration
 import java.time.Instant
@@ -17,10 +18,9 @@ import java.time.ZoneId
 class CustomAdapter(private var newsList: List<NewsModel>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-
     private lateinit var context: Context
-    private lateinit var mClickListener: OnItemClickListener
-    private lateinit var mLongClickListener: OnItemLongClickListener
+    private lateinit var onClickListener: OnItemClickListener
+    private lateinit var onLongClickListener: OnItemLongClickListener
 
     init {
         this.notifyDataSetChanged()
@@ -35,23 +35,23 @@ class CustomAdapter(private var newsList: List<NewsModel>) :
     }
 
     fun setOnItemLongClickListener(listener: OnItemLongClickListener) {
-        mLongClickListener = listener
+        onLongClickListener = listener
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
-        mClickListener = listener
+        onClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         context = parent.context
-        return ViewHolder(view, mClickListener, mLongClickListener)
+        return ViewHolder(binding, onClickListener, onLongClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val newsData = newsList[holder.adapterPosition]
 
-        holder.headLine.text = newsData.headLine
+        holder.binding.newsTitle.text = newsData.headLine
         val time: String? = newsData.time
         val imgUrl = newsData.image
 
@@ -60,26 +60,22 @@ class CustomAdapter(private var newsList: List<NewsModel>) :
                 .load( R.drawable.samplenews)
                 .fit()
                 .centerCrop()
-                .into(holder.image)
+                .into(holder.binding.img)
         } else {
             Picasso.get()
                 .load(imgUrl)
                 .fit()
                 .centerCrop()
                 .error(R.drawable.samplenews)
-                .into(holder.image)
+                .into(holder.binding.img)
         }
 
-        if (context.toString().contains("SavedNews")) {
-            val date = " " + time?.substring(0, time.indexOf('T', 0))
-            holder.newsPublicationTime.text = date
-        } else {
-            val currentTimeInHours = Instant.now().atZone(ZoneId.of("Asia/Kolkata"))
-            val newsTimeInHours = Instant.parse(time).atZone(ZoneId.of("Asia/Kolkata"))
-            val hoursDifference = Duration.between(currentTimeInHours, newsTimeInHours)
-            val hoursAgo = " " + hoursDifference.toHours().toString().substring(1) + " hour ago"
-            holder.newsPublicationTime.text = hoursAgo
-        }
+
+        val currentTimeInHours = Instant.now().atZone(ZoneId.of("Asia/Jakarta"))
+        val newsTimeInHours = Instant.parse(time).atZone(ZoneId.of("Asia/Jakarta"))
+        val hoursDifference = Duration.between(currentTimeInHours, newsTimeInHours)
+        val hoursAgo = " " + hoursDifference.toHours().toString().substring(1) + " hour ago"
+        holder.binding.newsPublicationTime.text = hoursAgo
 
     }
 
@@ -88,20 +84,17 @@ class CustomAdapter(private var newsList: List<NewsModel>) :
     }
 
     class ViewHolder(
-        ItemView: View,
+        val binding: ListItemBinding,
         listener: OnItemClickListener,
         listener2: OnItemLongClickListener
-    ) : RecyclerView.ViewHolder(ItemView) {
-        val image: ImageView = itemView.findViewById(R.id.img)
-        val headLine: TextView = itemView.findViewById(R.id.news_title)
-        val newsPublicationTime: TextView = itemView.findViewById(R.id.news_publication_time)
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            ItemView.setOnClickListener {
+            binding.root.setOnClickListener {
                 listener.onItemClick(adapterPosition)
             }
 
-            ItemView.setOnLongClickListener {
+            binding.root.setOnLongClickListener {
                 listener2.onItemLongClick(adapterPosition)
                 return@setOnLongClickListener true
             }
