@@ -19,6 +19,11 @@ class ArticleAdapter(private var newsList: List<NewsModel>) :
     private lateinit var onClickListener: OnItemClickListener
     private lateinit var onLongClickListener: OnItemLongClickListener
 
+    fun updateNewsList(newNewsList:List<NewsModel>) {
+        newsList = newNewsList
+        notifyDataSetChanged()
+    }
+
     init {
         this.notifyDataSetChanged()
     }

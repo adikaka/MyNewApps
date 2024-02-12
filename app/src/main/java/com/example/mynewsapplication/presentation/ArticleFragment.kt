@@ -3,6 +3,8 @@ package com.example.mynewsapplication.presentation
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsapplication.model.NewsModel
@@ -56,12 +58,34 @@ class ArticleFragment(private val newsDataList: MutableList<NewsModel>, private 
         })
 
         binding.componentBottomSource.btnSource.setOnClickListener {
-            val fragment = SourceFragment(newsDataList)
+            val newsFilterer: (String) -> Unit = { selectedSource ->
+                val filteredNews =  getNewsWithSource(newsDataList, selectedSource)
+                adapter.updateNewsList(filteredNews)
+            }
+
+            val fragment = SourceFragment(newsDataList, newsFilterer)
             parentFragmentManager.beginTransaction()
-                .replace(R.id.mainAct, fragment)
+                .add(R.id.mainAct, fragment)
                 .addToBackStack(null)
                 .commit()
         }
+
+        binding.svSearch.setOnQueryTextListener(object : OnQueryTextListener,
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText == null){
+                    return true
+                }
+                val dataFilterSearch : MutableList<NewsModel> = getNewsWithSearch(newsDataList,newText)
+                adapter.updateNewsList(dataFilterSearch)
+                return true
+            }
+
+        })
 
 
         // Ignore
@@ -86,8 +110,16 @@ class ArticleFragment(private val newsDataList: MutableList<NewsModel>, private 
         return newsWithSource
     }
 
-    fun updateSource(newSource: String) {
-        this.filterSource = newSource
+    fun getNewsWithSearch(newsList: MutableList<NewsModel>, keyword: String): MutableList<NewsModel>{
+        var newsWithSearch = mutableListOf<NewsModel>()
+
+        for (news in newsList){
+            if (news.headLine.contains(keyword, true)){
+                newsWithSearch.add(news)
+            }
+        }
+
+        return newsWithSearch
     }
 
 }

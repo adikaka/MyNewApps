@@ -25,6 +25,18 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/resetSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset All"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="textEnd"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="10dp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

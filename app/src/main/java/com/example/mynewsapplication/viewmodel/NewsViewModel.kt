@@ -18,7 +18,4 @@ class NewsViewModel : ViewModel() {
         return newsLiveData
     }
 
-    var newsData: LiveData<List<NewsModel>>? = null
-
-
 }
