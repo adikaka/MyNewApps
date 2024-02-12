@@ -22,7 +22,6 @@
             app:titleTextColor="?attr/colorOnPrimary">
 
         </com.google.android.material.appbar.MaterialToolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <WebView

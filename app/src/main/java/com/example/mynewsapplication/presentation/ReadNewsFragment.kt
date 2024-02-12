@@ -1,15 +1,12 @@
 package com.example.mynewsapplication.presentation
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebViewClient
-import androidx.fragment.app.Fragment
-import com.example.mynewsapplication.NewsModel
+import com.example.mynewsapplication.model.NewsModel
 import com.example.mynewsapplication.base.BaseFragment
 import com.example.mynewsapplication.databinding.FragmentReadNewsBinding
 import com.example.mynewsapplication.utils.Constants.NEWS_CONTENT

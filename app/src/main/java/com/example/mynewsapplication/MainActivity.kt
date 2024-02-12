@@ -8,11 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.example.mynewsapplication.databinding.ActivityMainBinding
+import com.example.mynewsapplication.model.NewsModel
+import com.example.mynewsapplication.presentation.ArticleFragment
 import com.example.mynewsapplication.presentation.adapter.FragmentAdapter
 import com.example.mynewsapplication.viewmodel.NewsViewModel
 import com.example.mynewsapplication.utils.Constants.BUSINESS
@@ -23,8 +22,6 @@ import com.example.mynewsapplication.utils.Constants.SCIENCE
 import com.example.mynewsapplication.utils.Constants.SPORTS
 import com.example.mynewsapplication.utils.Constants.TECHNOLOGY
 import com.example.mynewsapplication.utils.Constants.TOTAL_NEWS_TAB
-import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -66,9 +63,29 @@ class MainActivity : AppCompatActivity() {
         requestNews(TECHNOLOGY, techNews)
 
         fragmentAdapter = FragmentAdapter(supportFragmentManager, lifecycle)
+        setupFragments()
         binding.viewPager.adapter = fragmentAdapter
         binding.viewPager.visibility = View.GONE
 
+    }
+
+    private fun setupFragments() {
+        val source:String = ""
+        val generalFragment = ArticleFragment(MainActivity.generalNews, source)
+        val businessFragment = ArticleFragment(MainActivity.businessNews, source)
+        val entertainmentFragment = ArticleFragment(MainActivity.entertainmentNews, source)
+        val scienceFragment = ArticleFragment(MainActivity.scienceNews, source)
+        val sportsFragment = ArticleFragment(MainActivity.sportsNews, source)
+        val techFragment = ArticleFragment(MainActivity.techNews, source)
+        val healthFragment = ArticleFragment(MainActivity.healthNews, source)
+
+        fragmentAdapter.addFragment(generalFragment)
+        fragmentAdapter.addFragment(businessFragment)
+        fragmentAdapter.addFragment(entertainmentFragment)
+        fragmentAdapter.addFragment(scienceFragment)
+        fragmentAdapter.addFragment(sportsFragment)
+        fragmentAdapter.addFragment(techFragment)
+        fragmentAdapter.addFragment(healthFragment)
     }
 
 

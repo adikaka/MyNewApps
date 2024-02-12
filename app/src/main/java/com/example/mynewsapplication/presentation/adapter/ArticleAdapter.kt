@@ -2,12 +2,9 @@ package com.example.mynewsapplication.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mynewsapplication.NewsModel
+import com.example.mynewsapplication.model.NewsModel
 import com.example.mynewsapplication.R
 import com.example.mynewsapplication.databinding.ListItemBinding
 import com.squareup.picasso.Picasso
@@ -15,8 +12,8 @@ import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 
-class CustomAdapter(private var newsList: List<NewsModel>) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class ArticleAdapter(private var newsList: List<NewsModel>) :
+    RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
 
     private lateinit var context: Context
     private lateinit var onClickListener: OnItemClickListener
@@ -49,7 +46,7 @@ class CustomAdapter(private var newsList: List<NewsModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val newsData = newsList[holder.adapterPosition]
+        val newsData = newsList[holder.position]
 
         holder.binding.newsTitle.text = newsData.headLine
         val time: String? = newsData.time

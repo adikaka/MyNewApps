@@ -1,10 +1,10 @@
-package com.example.mynewsapplication.viewmodel
+package com.example.mynewsapplication.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mynewsapplication.BuildConfig
 import com.example.mynewsapplication.MainActivity
-import com.example.mynewsapplication.NewsModel
+import com.example.mynewsapplication.model.NewsModel
 import com.example.mynewsapplication.data.response.NewsDataFromJson
 import com.example.mynewsapplication.data.RetrofitHelper
 import com.example.mynewsapplication.data.service.NewsApi
