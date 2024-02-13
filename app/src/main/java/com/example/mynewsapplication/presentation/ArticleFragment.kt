@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsapplication.model.NewsModel
 import com.example.mynewsapplication.R
 import com.example.mynewsapplication.base.BaseFragment
+import com.example.mynewsapplication.data.repository.NewsRepository
 import com.example.mynewsapplication.databinding.FragmentArticleBinding
 import com.example.mynewsapplication.presentation.adapter.ArticleAdapter
 import com.example.mynewsapplication.utils.Constants.NEWS_CONTENT
@@ -19,6 +20,7 @@ import com.example.mynewsapplication.utils.Constants.NEWS_PUBLICATION_TIME
 import com.example.mynewsapplication.utils.Constants.NEWS_SOURCE
 import com.example.mynewsapplication.utils.Constants.NEWS_TITLE
 import com.example.mynewsapplication.utils.Constants.NEWS_URL
+import com.example.mynewsapplication.viewmodel.ArticleViewModel
 
 class ArticleFragment(private val newsDataList: MutableList<NewsModel>, private var filterSource: String): BaseFragment<FragmentArticleBinding>(){
     override fun inflateBinding(
@@ -28,11 +30,15 @@ class ArticleFragment(private val newsDataList: MutableList<NewsModel>, private 
         return FragmentArticleBinding.inflate(inflater, container, false)
     }
 
+    private lateinit var articleViewModel: ArticleViewModel
+
     override fun setupView() {
+        articleViewModel = ArticleViewModel(NewsRepository())
+
         val recyclerView : RecyclerView = binding.recyclerView
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val dataFilterSource : MutableList<NewsModel> = getNewsWithSource(newsDataList, filterSource)
+        val dataFilterSource : MutableList<NewsModel> = articleViewModel.getNewsWithSource(newsDataList, filterSource)
         val adapter = ArticleAdapter(dataFilterSource)
         recyclerView.adapter = adapter
 
@@ -59,7 +65,7 @@ class ArticleFragment(private val newsDataList: MutableList<NewsModel>, private 
 
         binding.componentBottomSource.btnSource.setOnClickListener {
             val newsFilterer: (String) -> Unit = { selectedSource ->
-                val filteredNews =  getNewsWithSource(newsDataList, selectedSource)
+                val filteredNews =  articleViewModel.getNewsWithSource(newsDataList, selectedSource)
                 adapter.updateNewsList(filteredNews)
             }
 
@@ -80,46 +86,16 @@ class ArticleFragment(private val newsDataList: MutableList<NewsModel>, private 
                 if (newText == null){
                     return true
                 }
-                val dataFilterSearch : MutableList<NewsModel> = getNewsWithSearch(newsDataList,newText)
+                val dataFilterSearch : MutableList<NewsModel> = articleViewModel.getNewsWithSearch(newsDataList,newText)
                 adapter.updateNewsList(dataFilterSearch)
                 return true
             }
 
         })
 
-
         // Ignore
         adapter.setOnItemLongClickListener(object : ArticleAdapter.OnItemLongClickListener {
             override fun onItemLongClick(position: Int) = Unit
         })
     }
-
-    fun getNewsWithSource(newsList: MutableList<NewsModel>, source: String): MutableList<NewsModel> {
-        var newsWithSource = mutableListOf<NewsModel>()
-
-        if (source == ""){
-            newsWithSource = newsList
-        }else{
-            for (news in newsList) {
-                if (news.source == source) {
-                    newsWithSource.add(news)
-                }
-            }
-        }
-
-        return newsWithSource
-    }
-
-    fun getNewsWithSearch(newsList: MutableList<NewsModel>, keyword: String): MutableList<NewsModel>{
-        var newsWithSearch = mutableListOf<NewsModel>()
-
-        for (news in newsList){
-            if (news.headLine.contains(keyword, true)){
-                newsWithSearch.add(news)
-            }
-        }
-
-        return newsWithSearch
-    }
-
 }

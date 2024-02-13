@@ -16,6 +16,44 @@ import retrofit2.Response
 
 class NewsRepository {
 
+    fun getNewsWithSource(newsList: MutableList<NewsModel>, source: String): MutableList<NewsModel> {
+        var newsWithSource = mutableListOf<NewsModel>()
+
+        if (source == ""){
+            newsWithSource = newsList
+        }else{
+            for (news in newsList) {
+                if (news.source == source) {
+                    newsWithSource.add(news)
+                }
+            }
+        }
+
+        return newsWithSource
+    }
+
+    fun getNewsWithSearch(newsList: MutableList<NewsModel>, keyword: String): MutableList<NewsModel>{
+        var newsWithSearch = mutableListOf<NewsModel>()
+
+        for (news in newsList){
+            if (news.headLine.contains(keyword, true)){
+                newsWithSearch.add(news)
+            }
+        }
+
+        return newsWithSearch
+    }
+
+    fun getUniqueSource(newsList: MutableList<NewsModel>): MutableList<String> {
+        val uniqueSources = HashSet<String>()
+
+        for (news in newsList) {
+            news.source?.let { uniqueSources.add(it) }
+        }
+
+        return uniqueSources.toMutableList()
+    }
+
     // get news from API
     fun getNewsApiCall(category: String?): MutableLiveData<List<NewsModel>> {
 

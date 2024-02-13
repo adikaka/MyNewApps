@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsapplication.databinding.ListItemSourceBinding
-import com.example.mynewsapplication.model.NewsModel
 
 class SourceAdapter(private var newsList: MutableList<String>) :
     RecyclerView.Adapter<SourceAdapter.ViewHolder>() {
@@ -43,8 +42,6 @@ class SourceAdapter(private var newsList: MutableList<String>) :
     override fun onBindViewHolder(holder: SourceAdapter.ViewHolder, position: Int) {
         val newsData = newsList[holder.position]
         holder.binding.newsTitleSource.text = newsData
-//        val source = uniqueDataSource[position]
-//        holder.binding.newsTitleSource.text = source
     }
 
     override fun getItemCount(): Int {
